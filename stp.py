@@ -1,5 +1,7 @@
+import os
 routes = []
-#test
+
+file = open('result.txt','w')
 
 def find_paths(node, cities, path, distance):
     # Add way point
@@ -7,7 +9,7 @@ def find_paths(node, cities, path, distance):
 
     # Calculate path length from current to last node
     if len(path) > 1:
-        print("HERE {}".format(cities[path[-2]][node]))
+        #   print("HERE {}".format(cities[path[-2]][node]))
         distance += cities[path[-2]][node]
 
     # If path contains all cities and is not a dead end,
@@ -16,7 +18,9 @@ def find_paths(node, cities, path, distance):
         global routes
         path.append(path[0])
         distance += cities[path[-2]][path[0]]
-        print path, distance
+        result = str(path) + str(distance) +'\n'
+        #print path, distance
+        file.write(result)
         routes.append([distance, path])
         return
 
@@ -48,10 +52,14 @@ if __name__ == '__main__':
         'C': {'A': 7, 'B': 4, 'D': 3},
         'D': {'B': 2, 'C':3, 'A' : 6}
     }
-    find_paths('A', test, [], 0)
-    print "\n"
-    routes.sort()
+    for node in cities:
+        find_paths(node, cities, [], 0)
+        #print "\n"
+        routes.sort()
+
     if len(routes) != 0:
+        print "Result saved in result.txt file"
         print "Shortest route: %s" % routes[0]
     else:
         print "FAIL!"
+
